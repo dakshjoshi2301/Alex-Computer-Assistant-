@@ -1,11 +1,13 @@
-import pyttsx3
-import speech_recognition as sr
+# All module are download in command prompt or powershell
+
+import pyttsx3                        (module is downloaded as "pip install pyttsx3")
+import speech_recognition as sr       (module is downloaded as "pip install speechrecognition")
 import datetime
-import pyjokes
-import wikipedia
+import pyjokes                        (module is downloaded as "pip install pyjokes")
+import wikipedia                      (module is downloaded as "pip install wikipedia")
 import webbrowser
 import os
-import pywhatkit as w
+import pywhatkit as w                 (module is downloaded as "pip install pywhatkit")
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -85,10 +87,6 @@ if __name__ == "__main__":
             speak("OK Sir")
             webbrowser.open("https://mail.google.com/")
 
-        elif 'entertainment for kids' in query:
-            speak("OK Sir")
-            webbrowser.open("https://www.youtube.com/watch?v=dieB9zAJXGE&list=PL04n2qvqQ9yQk46J1d-y_XzZsueAVQWbV&index=1&t=1s")
-
         elif 'search from google' in query:
             speak("What should I search?")
             say = takeCommand()
@@ -102,6 +100,7 @@ if __name__ == "__main__":
             webbrowser.open(youtubeurl+say)
 
 # Music.
+# Enter your own music directory.
 
         elif 'play music' in query:
             music_dir = 'F:\\SONGS'
@@ -123,6 +122,7 @@ if __name__ == "__main__":
             speak((pyjokes.get_joke()))
 
 # Open Apps.
+# Enter your own codepath.
 
         elif 'open code' in query:
             codePath = "C:\\Users\\user\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
@@ -146,7 +146,7 @@ if __name__ == "__main__":
                 speak("What should I say?")
                 say = takeCommand()
                 speak("Set the time to send the message!")
-                w.sendwhatmsg('+919799541708', f"{say}", int(input()),int(input()))
+                w.sendwhatmsg('+91', f"{say}", int(input()),int(input()))
                 speak("Message have been sent!")
 
             except Exception:
@@ -174,10 +174,6 @@ if __name__ == "__main__":
         elif 'how do you work' in query:
             print("I work on voice command")
             speak("I work on voice command")
-
-        elif 'introduce me' in query:
-            print("You are Daksh Joshi of class 8,studying in Mahatma Gandhi Goverment School. Your project is me[an artificial intelligence virtual assistant program created on python]")
-            speak("You are Daaksh Joshi of class 8,studying in Mahatma Gandhi Goverment School. Your project is me[an artificial intelligence virtual assistant program created on python]")
 
         elif 'nice to meet you' in query: 
             print("Nice to meet you too")

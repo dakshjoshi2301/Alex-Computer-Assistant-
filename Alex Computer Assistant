@@ -1,0 +1,276 @@
+import pyttsx3
+import speech_recognition as sr
+import datetime
+import pyjokes
+import wikipedia
+import webbrowser
+import os
+import pywhatkit as w
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+print(voices[0].id)
+engine.setProperty('voice',voices[0].id)
+
+def speak(audio):
+    engine.say(audio)
+    engine.runAndWait()
+
+def wishMe():
+    hour = int(datetime.datetime.now().hour)
+    if hour>=0 and hour<12:
+        speak("Good Morning Sir!")
+
+    elif hour>=12 and hour<17:
+        speak("Good Afternoon Sir!")
+
+    elif hour>=17 and hour<24:
+        speak("Good Evening Sir!")
+
+def takeCommand():
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        r.pause_threshold = 1
+        audio = r.listen(source)
+
+    try:
+        print("Recongnizing...")
+        query = r.recognize_google(audio, language='en-in')
+        print(f"User said: {query}\n")
+
+    except Exception:
+        print("Sorry I can't understand what you are saying. Please run the program again.")
+        speak("Sorry I can't understand what you are saying. Please run the program again.")
+        return "None"
+    return query
+
+if __name__ == "__main__": 
+    wishMe()
+    if 1:
+        query = takeCommand().lower()
+
+# For knowing something.
+
+        if 'wikipedia' in query:
+            try:
+                speak('Searching Wikipedia...')
+                query = query.replace("wikipedia", "")
+                results = wikipedia.summary(query,sentences=3) 
+                speak("According to Wikipedia")
+                print(results)
+                speak(results)
+                speak("Thank You for giving me time. Have a nice day Sir!")
+            
+            except Exception:
+                print("That is a wrong question")
+                speak("That is a wrong question")
+
+# Opening Website.
+
+        elif 'open youtube' in query:
+            speak("OK Sir")
+            webbrowser.open("https://www.youtube.com/")
+
+        elif 'open hindu' in query:
+            speak("OK Sir")
+            webbrowser.open("https://www.thehindu.com/")
+
+        elif 'open whatsapp' in query:
+            speak("OK Sir")
+            webbrowser.open("https://web.whatsapp.com/")
+
+        elif 'open mails' in query or 'open mail' in query:
+            speak("OK Sir")
+            webbrowser.open("https://mail.google.com/")
+
+        elif 'entertainment for kids' in query:
+            speak("OK Sir")
+            webbrowser.open("https://www.youtube.com/watch?v=dieB9zAJXGE&list=PL04n2qvqQ9yQk46J1d-y_XzZsueAVQWbV&index=1&t=1s")
+
+        elif 'search from google' in query:
+            speak("What should I search?")
+            say = takeCommand()
+            googleurl = "https://www.google.com/search?q="
+            webbrowser.open(googleurl+say)
+
+        elif 'search from youtube' in query:
+            speak("What should I search?")
+            say = takeCommand()
+            youtubeurl = "https://www.youtube.com/search?q="
+            webbrowser.open(youtubeurl+say)
+
+# Music.
+
+        elif 'play music' in query:
+            music_dir = 'F:\\SONGS'
+            speak("OK Sir")
+            songs = os.listdir(music_dir)
+            os.startfile(os.path.join(music_dir, songs[89]))
+
+# Time.
+
+        elif 'what is the time going on' in query:
+            strtime = datetime.datetime.now().strftime("%H:%M:%S")
+            print(f"Sir, The time is {strtime}")
+            speak(f"Sir, The time is {strtime}")
+            speak("Thank You for giving me time. Have a nice day Sir")
+
+# Joke.
+
+        if 'joke' in query:
+            speak((pyjokes.get_joke()))
+
+# Open Apps.
+
+        elif 'open code' in query:
+            codePath = "C:\\Users\\user\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+            speak("OK Sir")
+            os.startfile(codePath)
+
+        elif 'open google' in query:
+            codePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+            speak("OK Sir")
+            os.startfile(codePath)
+
+        elif 'open clock' in query:
+            codePath = "F:\\PYTHON\\Alex\\.vscode\\Clock.py"
+            speak("OK Sir")
+            os.startfile(codePath)
+
+# Sending Message.
+
+        if 'message' in query:
+            try:
+                speak("What should I say?")
+                say = takeCommand()
+                speak("Set the time to send the message!")
+                w.sendwhatmsg('+919799541708', f"{say}", int(input()),int(input()))
+                speak("Message have been sent!")
+
+            except Exception:
+                print("Sorry Sir. I am unable to send the message.")
+                speak("Sorry Sir. I am unable to send the message.")
+
+# Introduction.
+
+        elif 'what is your name' in query:
+            print("My name is Alex, your personal virtual assisstant. I am an artificial intelligence program created on python")
+            speak("My name is Alex, your personal virtual assisstant. I am an artificial intelligence program created on python")
+
+        elif 'who is your creator' in query:
+            print("I am created by Daksh")
+            speak("I am created by Daaksh")
+
+        elif 'who are you' in query:
+            print("I am an artificial intelligence program created on python")
+            speak("I am an artificial intelligence program created on python")
+
+        elif 'what is your work' in query:
+            print("My work is to reduce human effort")
+            speak("My work is to reduce human effort")
+
+        elif 'how do you work' in query:
+            print("I work on voice command")
+            speak("I work on voice command")
+
+        elif 'introduce me' in query:
+            print("You are Daksh Joshi of class 8,studying in Mahatma Gandhi Goverment School. Your project is me[an artificial intelligence virtual assistant program created on python]")
+            speak("You are Daaksh Joshi of class 8,studying in Mahatma Gandhi Goverment School. Your project is me[an artificial intelligence virtual assistant program created on python]")
+
+        elif 'nice to meet you' in query: 
+            print("Nice to meet you too")
+            speak("Nice to meet you too")
+
+        elif 'today is my birthday' in query:
+            print("Happy birthday Sir")
+            speak("Happy birthday Sir")
+
+        if 'wake' in query:
+            print("I am always for you")
+            speak("I am always for you")
+
+# G.K. question.
+
+        elif 'which state is the largest area' in query:
+            print("Rajasthan")
+            speak("Rajasthan")
+
+        elif 'which state has the largest population' in query:
+            print("Uttar Pradesh")
+            speak("Uttar Pradash")
+
+        elif 'what does big bang theory explain' in query:
+            print("Origin of Universe")
+            speak("Origin of Universe")
+
+        elif 'what kind of mosquito carries malaria' in query:
+            print("Anopheles Mosquitoes")
+            speak("Anopheles Mosquitoes")
+
+        elif 'name the smallest ocean' in query:
+            print("Arctic Ocean")
+            speak("Arctic Ocean")
+
+        elif 'who is the fastest man in the world' in query:
+            print("Usain Bolt")
+            speak("Usain Bolt")
+
+        elif 'which year was the battle of plassey fought' in query:
+            print("1757")
+            speak("1757")
+
+        elif 'who gave the slogan do or die' in query:
+            print("Mahatma Gandhi")
+            speak("Mahatma Gandhi")
+
+        elif 'world environment day is celebrated on' in query:
+            print("June 5")
+            speak("June 5")
+
+# Indian Awards.
+
+        if 'indian awards' in query:
+            print("There are to many awards in India. Some of them are Padma Award, Bharat Ratna, Param Vir Chakra, Vir Chakra, Maha Vir Chakra, Arjuna Award, Shaurya Chakra, Kirti Chakra, Ashoka Chakra, Dronacharya Award, etc.")
+            speak("There are to many awards in India. Some of them are Padma Award, Bharat Ratna, Param Vir Chakra, Vir Chakra, Maha Vir Chakra, Arjuna Award, Shaurya Chakra, Kirti Chakra, Ashoka Chakra, Dronacharya Award, etc.")
+
+        if 'padma award' in query:
+            print("The Padma Awards are one of the highest civilian honours of India announced annually on the eve of Republic Day. The Awards are given in three categories: Padma Vibhushan (for exceptional and distinguished service), Padma Bhushan (distinguished service of higher order) and Padma Shri (distinguished service). The award seeks to recognize achievements in all fields of activities or disciplines where an element of public service is involved.The Padma Awards are conferred on the recommendations made by the Padma Awards Committee, which is constituted by the Prime Minister every year. The nomination process is open to the public. Even self-nomination can be made.")
+            speak("The Padma Awards are one of the highest civilian honours of India announced annually on the eve of Republic Day. The Awards are given in three categories: Padma Vibhushan (for exceptional and distinguished service), Padma Bhushan (distinguished service of higher order) and Padma Shri (distinguished service). The award seeks to recognize achievements in all fields of activities or disciplines where an element of public service is involved.The Padma Awards are conferred on the recommendations made by the Padma Awards Committee, which is constituted by the Prime Minister every year. The nomination process is open to the public. Even self-nomination can be made.")
+
+        if 'bharat ratna' in query:
+            print("Bharat Ratna is the highest civilian award of the country. It is awarded in recognition of exceptional service/performance of the highest order in any field of human endeavour. It is treated on a different footing from Padma Award. The recommendations for Bharat Ratna are made by the Prime Minister to the President of India. No formal recommendations for Bharat Ratna are necessary. The number of Bharat Ratna Awards is restricted to a maximum of three in a particular year. Government has conferred Bharat Ratna Award on 45 persons till date.")
+            speak("Bharat Ratna is the highest civilian award of the country. It is awarded in recognition of exceptional service/performance of the highest order in any field of human endeavour. It is treated on a different footing from Padma Award. The recommendations for Bharat Ratna are made by the Prime Minister to the President of India. No formal recommendations for Bharat Ratna are necessary. The number of Bharat Ratna Awards is restricted to a maximum of three in a particular year. Government has conferred Bharat Ratna Award on 45 persons till date.")
+
+        if 'param vir chakra' in query:
+            print("The Param Vir Chakra (PVC) is India's highest military decoration, awarded for displaying distinguished acts of valour during wartime. Param Vir Chakra translates as the Greatest of the Ultimate Brave, and the award is granted for most conspicuous bravery in the presence of the enemy.A number of central and state governments and ministries of India provide allowances and rewards to recipients of the PVC (or their family members in case of the recipient's death). Only 21 military personnel have received this award to date")
+            speak("The Param Vir Chakra (PVC) is India's highest military decoration, awarded for displaying distinguished acts of valour during wartime. Param Vir Chakra translates as the Greatest of the Ultimate Brave, and the award is granted for most conspicuous bravery in the presence of the enemy.A number of central and state governments and ministries of India provide allowances and rewards to recipients of the PVC (or their family members in case of the recipient's death). Only 21 military personnel have received this award to date")
+
+        if 'vir chakra' in query:
+            print("Vir Chakra is an Indian gallantry award presented for acts of gallantry in the presence of the enemy on the battlefield. It replaced the British Distinguished Service Cross (DSC), Military Cross (MC) and Distinguished Flying Cross (DFC). Award of the decoration carries with it the right to use Vr.C. as a postnominal abbreviation (note the care to distinguish this abbreviation from that for the Victoria Cross (V.C.). It is third in precedence in the war time gallantry awards and comes after the Param Vir Chakra and Maha Vir Chakra.")
+            speak("Vir Chakra is an Indian gallantry award presented for acts of gallantry in the presence of the enemy on the battlefield. It replaced the British Distinguished Service Cross (DSC), Military Cross (MC) and Distinguished Flying Cross (DFC). Award of the decoration carries with it the right to use Vr.C. as a postnominal abbreviation (note the care to distinguish this abbreviation from that for the Victoria Cross (V.C.). It is third in precedence in the war time gallantry awards and comes after the Param Vir Chakra and Maha Vir Chakra.")
+
+        if 'maha vir chakra' in query:
+            print("The Maha Vir Chakra (MVC) (literally great warrior medal) is the second highest military decoration in India, after the Param Vir Chakra, and is awarded for acts of conspicuous gallantry in the presence of the enemy, whether on land, at sea or in the air. It replaced the British Distinguished Service Order (DSO). The medal may be awarded posthumously.")
+            speak("The Maha Vir Chakra (MVC) (literally great warrior medal) is the second highest military decoration in India, after the Param Vir Chakra, and is awarded for acts of conspicuous gallantry in the presence of the enemy, whether on land, at sea or in the air. It replaced the British Distinguished Service Order (DSO). The medal may be awarded posthumously.")
+
+        if 'arjuna award' in query:
+            print("The Arjuna Award, officially known as Arjuna Awards for Outstanding Performance in Sports and Games is the sports honour of Republic of India. The award is named after Arjuna. It is awarded annually by the Ministry of Youth Affairs and Sports. Before the introduction of the Rajiv Gandhi Khel Ratna in 1991–1992, the Arjuna award was the highest sporting honour of India")
+            speak("The Arjuna Award, officially known as Arjuna Awards for Outstanding Performance in Sports and Games is the sports honour of Republic of India. The award is named after Arjuna. It is awarded annually by the Ministry of Youth Affairs and Sports. Before the introduction of the Rajiv Gandhi Khel Ratna in 1991–1992, the Arjuna award was the highest sporting honour of India")
+
+        if 'shaurya chakra' in query:
+            print("The Shaurya Chakra is an Indian military decoration awarded for valour, courageous action or self-sacrifice while not engaged in direct action with the enemy. It may be awarded to civilians as well as military personnel, sometimes posthumously. It is third in order of precedence of peacetime gallantry awards and comes after the Ashoka Chakra and the Kirti Chakra. It precedes the Sena Medal.")
+            speak("The Shaurya Chakra is an Indian military decoration awarded for valour, courageous action or self-sacrifice while not engaged in direct action with the enemy. It may be awarded to civilians as well as military personnel, sometimes posthumously. It is third in order of precedence of peacetime gallantry awards and comes after the Ashoka Chakra and the Kirti Chakra. It precedes the Sena Medal.")
+
+        if 'kirti chakra' in query:
+            print("The Kirti Chakra is an Indian military decoration awarded for valour, courageous action or self-sacrifice away from the field of battle. It may be awarded to civilians as well as military personnel, including posthumous awards. It is the peacetime equivalent of the Maha Vir Chakra. It is second in order of precedence of peacetime gallantry awards; it comes after Ashoka Chakra and before Shaurya Chakra. Before 1967, the award was known as the Ashoka Chakra, Class II.")
+            speak("The Kirti Chakra is an Indian military decoration awarded for valour, courageous action or self-sacrifice away from the field of battle. It may be awarded to civilians as well as military personnel, including posthumous awards. It is the peacetime equivalent of the Maha Vir Chakra. It is second in order of precedence of peacetime gallantry awards; it comes after Ashoka Chakra and before Shaurya Chakra. Before 1967, the award was known as the Ashoka Chakra, Class II.")
+
+        if 'ashoka chakra' in query:
+            print("The Ashoka Chakra (alternative spelling: Ashok Chakra) is India's highest peacetime military decoration awarded for valour, courageous action or self-sacrifice away from the battlefield. It is the peacetime equivalent of the Param Vir Chakra (PVC), and is awarded for the most conspicuous bravery or some daring or pre-eminent valour or self-sacrifice other than in the face of the enemy. The decoration may be awarded either to military or civilian personnel.Flt. Lt. Suhas Biswas was the first Indian Air Force officer to be awarded the Ashoka Chakra. Subsequent awards of the Ashoka Chakra are recognized by a bar to the medal ribbon. A recipient can be awarded the Kirti Chakra or Shaurya Chakra in addition for separate acts of gallantry.")
+            speak("The Ashoka Chakra (alternative spelling: Ashok Chakra) is India's highest peacetime military decoration awarded for valour, courageous action or self-sacrifice away from the battlefield. It is the peacetime equivalent of the Param Vir Chakra (PVC), and is awarded for the most conspicuous bravery or some daring or pre-eminent valour or self-sacrifice other than in the face of the enemy. The decoration may be awarded either to military or civilian personnel.Flt. Lt. Suhas Biswas was the first Indian Air Force officer to be awarded the Ashoka Chakra. Subsequent awards of the Ashoka Chakra are recognized by a bar to the medal ribbon. A recipient can be awarded the Kirti Chakra or Shaurya Chakra in addition for separate acts of gallantry")
+
+        if 'dronacharya award' in query:
+            print("The Dronacharya Award, officially known as Dronacharya Award for Outstanding Coaches in Sports and Games, is sports coaching honour of the Republic of India. The award is named after Drona, often referred as Dronacharya or Guru Drona. It is awarded annually by the Ministry of Youth Affairs and Sports.")
+            speak("The Dronacharya Award, officially known as Dronacharya Award for Outstanding Coaches in Sports and Games, is sports coaching honour of the Republic of India. The award is named after Drona, often referred as Dronacharya or Guru Drona. It is awarded annually by the Ministry of Youth Affairs and Sports.")
